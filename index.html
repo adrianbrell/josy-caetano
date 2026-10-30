@@ -181,13 +181,13 @@ input:focus,select:focus,textarea:focus{border-bottom-color:var(--rose)}
   .hero .w{display:inline-block;opacity:0;filter:blur(6px);animation:wIn .5s ease-out forwards;animation-delay:calc(.25s + var(--i)*60ms)}
   .hero .hi{opacity:0;animation:fIn .5s ease-out forwards;animation-delay:calc(var(--d)*100ms + .1s)}
   .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease-out,transform .6s ease-out}
-  .rv.in{opacity:1;transform:none}
+  .rv.shown{opacity:1;transform:none}
   .pulsing{animation:pls 1.2s ease-in-out 3}
   .hero .hi.pulsing{opacity:1}
   .bub{animation:rise var(--t,11s) ease-in-out infinite;animation-delay:var(--dl,0s)}
   .spimg,.bbimg{transition:outline-offset .6s ease-out}
   .rv .spimg,.rv .bbimg,.rv.spimg{outline-offset:2px}
-  .rv.in .spimg,.rv.in .bbimg,.rv.in.spimg{outline-offset:10px}
+  .rv.shown .spimg,.rv.shown .bbimg,.rv.shown.spimg{outline-offset:10px}
 }
 @keyframes wIn{to{opacity:1;filter:blur(0)}}
 @keyframes fIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -365,7 +365,7 @@ input:focus,select:focus,textarea:focus{border-bottom-color:var(--rose)}
   var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!rm&&'IntersectionObserver' in window){
     var els=document.querySelectorAll('main .sec .eb, .sec h2, .sec .sub, .sec .p, .split, .bbimg, .feat .f, .facts, .tile, form, .contact, .hrs');
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('shown');io.unobserve(e.target)}})},{threshold:.12});
     els.forEach(function(el){if(el.closest('.hero'))return;var r=el.getBoundingClientRect();if(r.top>innerHeight){el.classList.add('rv');io.observe(el)}});
     var po=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var b=e.target;setTimeout(function(){b.classList.add('pulsing');b.addEventListener('animationend',function f(ev){if(ev.animationName==='pls'){b.classList.remove('pulsing');b.removeEventListener('animationend',f)}})},b.id==='heroBtn'?1100:200);po.unobserve(b)}})},{threshold:.6});
     document.querySelectorAll('.sec .btn:not(.ghost), .hero .btn').forEach(function(b){po.observe(b)});
